@@ -10,11 +10,11 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 app = Flask(__name__)
 
-# Set your Groq API key in the environment or directly here (not recommended for production)
+#set your API key
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
-GROQ_MODEL = "llama3-70b-8192"  # Or "llama3-70b-8192", etc.
+GROQ_MODEL = "llama3-70b-8192" 
 
-# Initialize LangChain Groq LLM
+
 llm = ChatGroq(
     groq_api_key=GROQ_API_KEY,
     model_name=GROQ_MODEL
@@ -61,12 +61,12 @@ class CustomerAgent:
             updates.append("email = ?")
             params.append(email)
         if not updates:
-            return 0  # Nothing to update
+            return 0  
         params.append(customer_id)
         sql = f'UPDATE customers SET {", ".join(updates)} WHERE id = ?'
         self.cursor.execute(sql, tuple(params))
         self.conn.commit()
-        return self.cursor.rowcount  # Number of rows updated
+        return self.cursor.rowcount  
 
     def process_command(self, command):
         system_prompt = """
@@ -105,8 +105,7 @@ Return only the JSON, no extra text.
             ]
             response = llm.invoke(messages)
             result = response.content.strip()
-            # Debug: print("LLM response:", result)
-            # Sometimes the LLM may return extra text, try to extract JSON
+
             try:
                 parsed = json.loads(result)
             except json.JSONDecodeError:
