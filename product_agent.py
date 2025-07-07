@@ -9,8 +9,11 @@ from openai import OpenAI
 
 app = Flask(__name__)
 
-# Initialize OpenAI client
-client = OpenAI(api_key="")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+if not OPENAI_API_KEY:
+    OPENAI_API_KEY = input("Enter your OpenAI API key: ")
+
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 class ProductAgent:
