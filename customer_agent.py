@@ -10,8 +10,9 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 app = Flask(__name__)
 
-#set your API key
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+if not GROQ_API_KEY:
+    GROQ_API_KEY = input("Enter your Groq API key: ")
 GROQ_MODEL = "llama3-70b-8192" 
 
 
